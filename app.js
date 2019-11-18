@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const config = require('./config/database');
+const config = require('../config/database');
 
 // Connect to db
 mongoose.connect(config.database, { useNewUrlParser: true });
@@ -45,6 +45,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Body Parser Middleware
 // Parses incoming request bodies
 app.use(bodyParser.json());
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./config/passport')(passport);
 
 app.use('/users', users);
 
